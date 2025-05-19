@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Корзина</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link">Корзина</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы корзины -->
+    <section class="cart-section">
+        <h2 class="cart-title">Корзина</h2>
+        <div id="cartItems" class="cart-items">
+            <!-- Товары будут добавлены через JavaScript -->
+        </div>
+        <div class="cart-summary">
+            <div class="total-price">Итого: <span id="totalPrice">0</span> ₽</div>
+            <button class="checkout-btn" onclick="checkout()">Оформить заказ</button>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>© 2025 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+
+    <style>
+        .cart-title {
+            font-size: 36px;
+            color: #9c4dff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #aaa;
+            font-size: 24px;
+            margin: 60px 0;
+        }
+
+        .cart-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding: 30px;
+            background-color: #111;
+            border-radius: 10px;
+            border: 1px solid #333;
+            transition: transform 0.2s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #222;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item-name {
+            font-size: 24px;
+            color: #9c4dff;
+        }
+
+        .cart-item-price {
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-item-quantity button {
+            background-color: #9c4dff;
+            color: #fff;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-item-quantity button:hover {
+            background-color: #7b2cff;
+        }
+
+        .cart-item-quantity span {
+            font-size: 20px;
+            color: #fff;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background-color: transparent;
+            border: none;
+            color: #ff4d4d;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .remove-item:hover {
+            color: #ff3333;
+        }
+
+        .cart-summary {
+            margin-top: 40px;
+            text-align: right;
+            padding: 30px;
+            background-color: #111;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .total-price {
+            font-size: 28px;
+            color: #9c4dff;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-link::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: attr(data-count) '' none;
+        }
+    </style>
+
+    <script>
+        // Функция для получения корзины из localStorage
+        function getCart() {
+            const cart = localStorage.getItem('cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        // Функция для сохранения корзины в localStorage
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Функция для обновления отображения корзины
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cart = getCart();
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="empty-cart">Ваша корзина пуста</p>';
+                document.getElementById('totalPrice').textContent = '0';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-name">${item.name}</h3>
+                        <div class="cart-item-price">${item.price.toLocaleString()} ₽</div>
+                        <div class="cart-item-quantity">
+                            <button onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-item" onclick="removeItem('${item.id}')">✕</button>
+                </div>
+            `).join('');
+
+            updateTotal();
+        }
+
+        // Функция для обновления количества товара
+        function updateQuantity(id, newQuantity) {
+            if (newQuantity < 1) return;
+            
+            const cart = getCart();
+            const item = cart.find(item => item.id === id);
+            
+            if (item) {
+                item.quantity = newQuantity;
+                saveCart(cart);
+                updateCartDisplay();
+                updateCartCounter();
+            }
+        }
+
+        // Функция для удаления товара
+        function removeItem(id) {
+            const cart = getCart();
+            const newCart = cart.filter(item => item.id !== id);
+            saveCart(newCart);
+            updateCartDisplay();
+            updateCartCounter();
+        }
+
+        // Функция для обновления общей стоимости
+        function updateTotal() {
+            const cart = getCart();
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('totalPrice').textContent = total.toLocaleString();
+        }
+
+        // Функция для обновления счетчика товаров в корзине
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            const cartLink = document.querySelector('.cart-link');
+            cartLink.setAttribute('data-count', totalItems);
+        }
+
+        // Функция оформления заказа
+        function checkout() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Ваша корзина пуста');
+                return;
+            }
+            
+            // Здесь можно добавить логику оформления заказа
+            alert('Спасибо за заказ! Мы свяжемся с вами в ближайшее время.');
+            
+            // Очищаем корзину после оформления заказа
+            localStorage.removeItem('cart');
+            updateCartDisplay();
+            updateCartCounter();
+        }
+
+        // Инициализация страницы при загрузке
+        window.addEventListener('load', () => {
+            updateCartDisplay();
+            updateCartCounter();
+        });
+    </script>
+</body>
+</html>

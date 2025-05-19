@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Каталог</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html" class="main-link">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link">Корзина <span class="cart-count" style="background-color: #9c4dff; padding: 2px 6px; border-radius: 50%; font-size: 12px;">0</span></a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="catalog-main-section">
+        <h1 class="catalog-title">Каталог товаров</h1>
+        
+        <!-- Поиск -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск товаров...">
+            <button class="search-btn">Поиск</button>
+        </div>
+
+        <!-- Сетка товаров -->
+        <div class="products-grid">
+            <!-- Товар 1 -->
+            <div class="product-card">
+                <img src="images/Property 1=Default.png" alt="Мышь G502 X" class="product-image">
+                <h3 class="product-name">Мышь G502 X</h3>
+                <p class="product-desc">Профессиональная игровая мышь с ультраточным сенсором</p>
+                <div class="product-price">15 185 ₽</div>
+                <button class="buy-btn" onclick="addToCart('Мышь G502 X', 15185, 'images/Property 1=Default.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="product-card">
+                <img src="images/Frame 84.png" alt="Xbox Elite Controller" class="product-image">
+                <h3 class="product-name">Xbox Elite Controller</h3>
+                <p class="product-desc">Премиальный геймпад для Xbox Series X|S и PC</p>
+                <div class="product-price">17 850 ₽</div>
+                <button class="buy-btn" onclick="addToCart('Xbox Elite Controller', 17850, 'images/Frame 84.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="product-card">
+                <img src="images/Group 12.png" alt="Razer BlackWidow V3" class="product-image">
+                <h3 class="product-name">Razer BlackWidow V3</h3>
+                <p class="product-desc">Механическая клавиатура с RGB подсветкой</p>
+                <div class="product-price">12 990 ₽</div>
+                <button class="buy-btn" onclick="addToCart('Razer BlackWidow V3', 12990, 'images/Group 12.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 4 -->
+            <div class="product-card">
+                <img src="images/Group 13.png" alt="SteelSeries Arctis Pro" class="product-image">
+                <h3 class="product-name">SteelSeries Arctis Pro</h3>
+                <p class="product-desc">Премиальная игровая гарнитура с Hi-Res звуком</p>
+                <div class="product-price">19 990 ₽</div>
+                <button class="buy-btn" onclick="addToCart('SteelSeries Arctis Pro', 19990, 'images/Group 13.png')">Добавить в корзину</button>
+            </div>
+
+                        <!-- Товар 5 -->
+                        <div class="product-card">
+                            <img src="images/Property 1=Default.png" alt="Razer Viper Ultimate" class="product-image">
+                            <h3 class="product-name">Razer Viper Ultimate</h3>
+                            <p class="product-desc">Беспроводная игровая мышь с док-станцией</p>
+                            <div class="product-price">14 590 ₽</div>
+                            <button class="buy-btn" onclick="addToCart('Razer Viper Ultimate', 14590, 'images/Property 1=Default.png')">Добавить в корзину</button>
+                        </div>
+            
+            
+
+            <!-- Товар 6 -->
+            <div class="product-card">
+                <img src="images/Group 12.png" alt="HyperX Alloy Origins" class="product-image">
+                <h3 class="product-name">HyperX Alloy Origins</h3>
+                <p class="product-desc">Компактная механическая клавиатура</p>
+                <div class="product-price">11 990 ₽</div>
+                <button class="buy-btn" onclick="addToCart('HyperX Alloy Origins', 11990, 'images/Group 12.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 7 -->
+            <div class="product-card">
+                <img src="images/Group 13.png" alt="Logitech G Pro X" class="product-image">
+                <h3 class="product-name">Logitech G Pro X</h3>
+                <p class="product-desc">Профессиональная игровая гарнитура</p>
+                <div class="product-price">13 990 ₽</div>
+                <button class="buy-btn" onclick="addToCart('Logitech G Pro X', 13990, 'images/Group 13.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 8 -->
+            <div class="product-card">
+                <img src="images/Group 12.png" alt="Corsair K100 RGB" class="product-image">
+                <h3 class="product-name">Corsair K100 RGB</h3>
+                <p class="product-desc">Премиальная механическая клавиатура</p>
+                <div class="product-price">21 990 ₽</div>
+                <button class="buy-btn" onclick="addToCart('Corsair K100 RGB', 21990, 'images/Group 12.png')">Добавить в корзину</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript для работы с корзиной -->
+    <script>
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Проверяем, есть ли уже такой товар в корзине
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Анимация добавления в корзину
+            alert('Товар добавлен в корзину!');
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+        }
+
+        // Обновляем счетчик корзины при загрузке страницы
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>
+</html>

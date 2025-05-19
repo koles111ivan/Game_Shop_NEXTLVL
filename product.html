@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Товар</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link" data-count="0">Корзина</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы "Товар" -->
+    <section class="product-section">
+        <div class="product-left">
+            <div class="product-image-container">
+                <img id="productImage" src="" alt="" class="product-image">
+            </div>
+            <h2 id="productName" class="product-name"></h2>
+            <div class="product-rating">
+                <div class="stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <span class="rating-count">(125 отзывов)</span>
+            </div>
+            <div class="product-price" id="productPrice"></div>
+        </div>
+        
+        <div class="product-right">
+            <div class="product-info">
+                <div class="product-specs">
+                    <h3>Характеристики:</h3>
+                    <ul id="productSpecs"></ul>
+                </div>
+                <p id="productDescription" class="product-description"></p>
+            </div>
+            <div class="product-actions">
+                <div class="quantity-selector">
+                    <button class="quantity-btn minus">-</button>
+                    <input type="number" value="1" min="1" max="10" class="quantity-input" id="quantityInput">
+                    <button class="quantity-btn plus">+</button>
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCartFromProduct()">Добавить в корзину</button>
+                <button class="buy-now-btn" onclick="buyNow()">Купить сейчас</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>© 2025 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+
+    <script>
+        // Данные о продуктах
+        const productsData = {
+            'G502X': {
+                specs: [
+                    'Сенсор HERO 25K',
+                    'Максимальное разрешение: 25600 DPI',
+                    'Частота опроса: 1000 Гц',
+                    'Программируемые кнопки: 13',
+                    'Вес: 89 грамм'
+                ]
+            },
+            'XboxElite': {
+                specs: [
+                    'Съемные задние лепестки',
+                    'Настраиваемые стики',
+                    'Время работы: до 40 часов',
+                    'Bluetooth подключение',
+                    'Вес: 345 грамм'
+                ]
+            }
+        };
+
+        // Функции для работы с корзиной
+        function getCart() {
+            const cart = localStorage.getItem('cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id'),
+                name: params.get('name'),
+                price: params.get('price'),
+                image: params.get('image')
+            };
+        }
+
+        function addToCartFromProduct() {
+            const params = getUrlParams();
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            
+            const product = {
+                id: params.id,
+                name: document.getElementById('productName').textContent,
+                price: parseInt(params.price),
+                image: params.image,
+                quantity: quantity
+            };
+
+            addToCart(product);
+        }
+
+        function addToCart(product) {
+            const cart = getCart();
+            const existingProduct = cart.find(item => item.id === product.id);
+
+            if (existingProduct) {
+                existingProduct.quantity += product.quantity;
+            } else {
+                cart.push(product);
+            }
+
+            saveCart(cart);
+            updateCartCounter();
+            showAddToCartNotification();
+        }
+
+        function buyNow() {
+            addToCartFromProduct();
+            window.location.href = 'cart.html';
+        }
+
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            const cartLink = document.querySelector('.cart-link');
+            cartLink.setAttribute('data-count', totalItems);
+        }
+
+        function showAddToCartNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.textContent = 'Товар добавлен в корзину';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        function setupQuantityHandlers() {
+            const minusBtn = document.querySelector('.minus');
+            const plusBtn = document.querySelector('.plus');
+            const quantityInput = document.querySelector('.quantity-input');
+
+            minusBtn.addEventListener('click', () => {
+                const currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+
+            plusBtn.addEventListener('click', () => {
+                const currentValue = parseInt(quantityInput.value);
+                if (currentValue < 10) {
+                    quantityInput.value = currentValue + 1;
+                }
+            });
+        }
+
+        function loadProductInfo() {
+            const params = getUrlParams();
+            
+            const productImage = document.getElementById('productImage');
+            const productName = document.getElementById('productName');
+            const productDescription = document.getElementById('productDescription');
+            const productPrice = document.getElementById('productPrice');
+            
+            productImage.src = params.image;
+            productImage.alt = params.name;
+            productName.textContent = params.name === 'XboxElite' ? 'Геймпад Xbox Elite' : 'Мышь G502 X';
+            
+            if (params.name === 'XboxElite') {
+                productDescription.textContent = 'Профессиональный беспроводной контроллер для максимального контроля в играх. Настраиваемые кнопки и улучшенная эргономика.';
+                createSpecsList(productsData.XboxElite.specs);
+            } else {
+                productDescription.textContent = 'Профессиональная игровая мышь с ультраточным сенсором, обеспечивающая высокую точность и скорость реакции. Идеально подходит для геймеров, стремящихся к победе.';
+                createSpecsList(productsData.G502X.specs);
+            }
+            
+            if (params.price) {
+                productPrice.textContent = parseInt(params.price).toLocaleString() + ' ₽';
+            }
+
+            setupQuantityHandlers();
+        }
+
+        function createSpecsList(specs) {
+            const specsList = document.getElementById('productSpecs');
+            specsList.innerHTML = specs.map(spec => `<li>${spec}</li>`).join('');
+        }
+
+        window.addEventListener('load', () => {
+            loadProductInfo();
+            updateCartCounter();
+        });
+    </script>
+
+    <style>
+        .cart-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-link::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: attr(data-count) '' none;
+        }
+    </style>
+</body>
+</html>
