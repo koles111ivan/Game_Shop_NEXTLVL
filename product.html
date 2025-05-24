@@ -18,7 +18,7 @@
                 <a href="catalog.html">Каталог</a>
                 <a href="about.html">О нас</a>
                 <a href="contacts.html">Контакты</a>
-                <a href="cart.html" class="cart-link" data-count="0">Корзина</a>
+                <a href="cart.html" class="cart-link">Корзина <span class="cart-count" style="background-color: #9c4dff; padding: 2px 6px; border-radius: 50%; font-size: 12px;">0</span></a>
             </nav>
             <div class="auth-buttons">
                 <a href="login.html" class="login-btn">Вход</a>
@@ -27,250 +27,127 @@
         </div>
     </header>
 
-    <!-- Основной контент страницы "Товар" -->
-    <section class="product-section">
-        <div class="product-left">
-            <div class="product-image-container">
-                <img id="productImage" src="" alt="" class="product-image">
-            </div>
-            <h2 id="productName" class="product-name"></h2>
-            <div class="product-rating">
-                <div class="stars">
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                    <span class="star">★</span>
-                </div>
-                <span class="rating-count">(125 отзывов)</span>
+    <!-- Основной контент -->
+    <main class="product-section">
+        <div class="product-image-container">
+            <img src="" alt="" class="product-image" id="productImage">
+        </div>
+        <div class="product-details">
+            <h1 class="product-name" id="productName"></h1>
+            <p class="product-description" id="productDescription"></p>
+            <div class="product-specs">
+                <h2>Характеристики</h2>
+                <ul id="productSpecs"></ul>
             </div>
             <div class="product-price" id="productPrice"></div>
+            <button class="add-to-cart-btn" id="addToCartBtn">Добавить в корзину</button>
         </div>
-        
-        <div class="product-right">
-            <div class="product-info">
-                <div class="product-specs">
-                    <h3>Характеристики:</h3>
-                    <ul id="productSpecs"></ul>
-                </div>
-                <p id="productDescription" class="product-description"></p>
-            </div>
-            <div class="product-actions">
-                <div class="quantity-selector">
-                    <button class="quantity-btn minus">-</button>
-                    <input type="number" value="1" min="1" max="10" class="quantity-input" id="quantityInput">
-                    <button class="quantity-btn plus">+</button>
-                </div>
-                <button class="add-to-cart-btn" onclick="addToCartFromProduct()">Добавить в корзину</button>
-                <button class="buy-now-btn" onclick="buyNow()">Купить сейчас</button>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <!-- Подвал -->
+    <!-- Подвал сайта -->
     <footer class="site-footer">
         <div class="footer-container">
-            <p>© 2025 NEXTLVL. Все права защищены.</p>
+            <p>&copy; 2024 NEXTLVL. Все права защищены.</p>
             <p>Премиальные игровые устройства для настоящих геймеров</p>
         </div>
     </footer>
 
+    <!-- Подключаем скрипты -->
+    <script src="project-rksp-Ivan_koleso\products.js"></script>
     <script>
-        // Данные о продуктах
-        const productsData = {
-            'G502X': {
-                specs: [
-                    'Сенсор HERO 25K',
-                    'Максимальное разрешение: 25600 DPI',
-                    'Частота опроса: 1000 Гц',
-                    'Программируемые кнопки: 13',
-                    'Вес: 89 грамм'
-                ]
-            },
-            'XboxElite': {
-                specs: [
-                    'Съемные задние лепестки',
-                    'Настраиваемые стики',
-                    'Время работы: до 40 часов',
-                    'Bluetooth подключение',
-                    'Вес: 345 грамм'
-                ]
-            }
-        };
-
-        // Функции для работы с корзиной
-        function getCart() {
-            const cart = localStorage.getItem('cart');
-            return cart ? JSON.parse(cart) : [];
-        }
-
-        function saveCart(cart) {
-            localStorage.setItem('cart', JSON.stringify(cart));
-        }
-
+        // Функция для получения параметров из URL
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
-            return {
-                id: params.get('id'),
-                name: params.get('name'),
-                price: params.get('price'),
-                image: params.get('image')
-            };
+            return params.get('id');
         }
 
-        function addToCartFromProduct() {
-            const params = getUrlParams();
-            const quantity = parseInt(document.getElementById('quantityInput').value);
-            
-            const product = {
-                id: params.id,
-                name: document.getElementById('productName').textContent,
-                price: parseInt(params.price),
-                image: params.image,
-                quantity: quantity
-            };
+        // Функция для загрузки данных товара
+        function loadProduct() {
+            const productId = getUrlParams();
+            console.log('Product ID:', productId); // Отладочная информация
+            console.log('Available products:', products); // Отладочная информация
 
-            addToCart(product);
-        }
+            const product = products[productId];
+            console.log('Selected product:', product); // Отладочная информация
 
-        function addToCart(product) {
-            const cart = getCart();
-            const existingProduct = cart.find(item => item.id === product.id);
-
-            if (existingProduct) {
-                existingProduct.quantity += product.quantity;
-            } else {
-                cart.push(product);
+            if (!product) {
+                console.error('Product not found:', productId); // Отладочная информация
+                window.location.href = 'catalog.html';
+                return;
             }
 
-            saveCart(cart);
-            updateCartCounter();
-            showAddToCartNotification();
-        }
+            // Обновляем заголовок страницы
+            document.title = `NEXTLVL | ${product.name}`;
 
-        function buyNow() {
-            addToCartFromProduct();
-            window.location.href = 'cart.html';
-        }
-
-        function updateCartCounter() {
-            const cart = getCart();
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            
-            const cartLink = document.querySelector('.cart-link');
-            cartLink.setAttribute('data-count', totalItems);
-        }
-
-        function showAddToCartNotification() {
-            const notification = document.createElement('div');
-            notification.className = 'cart-notification';
-            notification.textContent = 'Товар добавлен в корзину';
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2000);
-        }
-
-        function setupQuantityHandlers() {
-            const minusBtn = document.querySelector('.minus');
-            const plusBtn = document.querySelector('.plus');
-            const quantityInput = document.querySelector('.quantity-input');
-
-            minusBtn.addEventListener('click', () => {
-                const currentValue = parseInt(quantityInput.value);
-                if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
-                }
-            });
-
-            plusBtn.addEventListener('click', () => {
-                const currentValue = parseInt(quantityInput.value);
-                if (currentValue < 10) {
-                    quantityInput.value = currentValue + 1;
-                }
-            });
-        }
-
-        function loadProductInfo() {
-            const params = getUrlParams();
-            
+            // Заполняем данные товара
             const productImage = document.getElementById('productImage');
             const productName = document.getElementById('productName');
             const productDescription = document.getElementById('productDescription');
             const productPrice = document.getElementById('productPrice');
+            const productSpecs = document.getElementById('productSpecs');
+
+            if (productImage) productImage.src = product.image;
+            if (productImage) productImage.alt = product.name;
+            if (productName) productName.textContent = product.name;
+            if (productDescription) productDescription.textContent = product.description;
+            if (productPrice) productPrice.textContent = `${product.price.toLocaleString()} ₽`;
+
+            // Заполняем характеристики
+            if (productSpecs) {
+                productSpecs.innerHTML = '';
+                product.specs.forEach(spec => {
+                    const li = document.createElement('li');
+                    li.textContent = spec;
+                    productSpecs.appendChild(li);
+                });
+            }
+
+            // Настраиваем кнопку добавления в корзину
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            if (addToCartBtn) {
+                addToCartBtn.onclick = () => {
+                    addToCart(product.name, product.price, product.image);
+                };
+            }
+        }
+
+        // Функция для добавления в корзину
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
             
-            productImage.src = params.image;
-            productImage.alt = params.name;
-            productName.textContent = params.name === 'XboxElite' ? 'Геймпад Xbox Elite' : 'Мышь G502 X';
+            const existingItem = cart.find(item => item.name === name);
             
-            if (params.name === 'XboxElite') {
-                productDescription.textContent = 'Профессиональный беспроводной контроллер для максимального контроля в играх. Настраиваемые кнопки и улучшенная эргономика.';
-                createSpecsList(productsData.XboxElite.specs);
+            if (existingItem) {
+                existingItem.quantity += 1;
             } else {
-                productDescription.textContent = 'Профессиональная игровая мышь с ультраточным сенсором, обеспечивающая высокую точность и скорость реакции. Идеально подходит для геймеров, стремящихся к победе.';
-                createSpecsList(productsData.G502X.specs);
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
             }
             
-            if (params.price) {
-                productPrice.textContent = parseInt(params.price).toLocaleString() + ' ₽';
-            }
-
-            setupQuantityHandlers();
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            alert('Товар добавлен в корзину!');
         }
 
-        function createSpecsList(specs) {
-            const specsList = document.getElementById('productSpecs');
-            specsList.innerHTML = specs.map(spec => `<li>${spec}</li>`).join('');
+        // Функция для обновления счетчика корзины
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) cartCount.textContent = totalItems;
         }
 
-        window.addEventListener('load', () => {
-            loadProductInfo();
-            updateCartCounter();
+        // Загружаем товар при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded'); // Отладочная информация
+            loadProduct();
+            updateCartCount();
         });
     </script>
-
-    <style>
-        .cart-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            animation: slideIn 0.3s ease-out;
-            z-index: 1000;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .cart-link {
-            position: relative;
-        }
-
-        .cart-link::after {
-            content: attr(data-count);
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 12px;
-            padding: 2px 6px;
-            border-radius: 50%;
-            display: attr(data-count) '' none;
-        }
-    </style>
 </body>
 </html>
