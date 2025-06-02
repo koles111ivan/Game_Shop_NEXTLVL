@@ -55,6 +55,50 @@
     <!-- Подключаем скрипты -->
     <script src="project-rksp-Ivan_koleso\products.js"></script>
     <script>
+         // Функция для показа уведомления
+        function showNotification(message) {
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Показываем уведомление
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Скрываем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.classList.add('hide');
+                // Удаляем элемент после завершения анимации
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Функция для добавления в корзину
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Проверяем, есть ли уже такой товар в корзине
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showNotification('Товар добавлен в корзину');
+        }
         // Функция для получения параметров из URL
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
@@ -85,6 +129,8 @@
             const productDescription = document.getElementById('productDescription');
             const productPrice = document.getElementById('productPrice');
             const productSpecs = document.getElementById('productSpecs');
+            
+            
 
             if (productImage) productImage.src = product.image;
             if (productImage) productImage.alt = product.name;
@@ -131,7 +177,7 @@
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
             
-            alert('Товар добавлен в корзину!');
+            showNotification('Товар добавлен в корзину');
         }
 
         // Функция для обновления счетчика корзины

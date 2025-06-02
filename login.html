@@ -30,11 +30,11 @@
     <!-- Основной контент страницы "Вход" -->
     <section class="login-section">
         <div class="login-image-container">
-            <img src="images\99359de6131011f0ad1e66287b740599.webp" alt="Вход в NEXTLVL" class="login-image">
+            <img src="images/99359de6131011f0ad1e66287b740599.webp" alt="Вход в NEXTLVL" class="login-image">
         </div>
         <div class="login-form-container">
             <h2>Вход</h2>
-            <form class="login-form">
+            <form class="login-form" id="login-form">
                 <div class="form-group">
                     <label for="email">Эл. почта:</label>
                     <input type="email" id="email" name="email" required>
@@ -43,6 +43,8 @@
                     <label for="password">Пароль:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
+                <div class="error-message" id="error-message" style="color:#d32f2f; margin-bottom:10px; text-align:center;"></div>
+                <div class="success-message" id="success-message" style="color:#388e3c; margin-bottom:10px; text-align:center;"></div>
                 <button type="submit" class="login-submit-btn">Войти</button>
             </form>
         </div>
@@ -55,5 +57,40 @@
             <p>Премиальные игровые устройства для настоящих геймеров</p>
         </div>
     </footer>
+    <script>
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        document.getElementById('error-message').textContent = '';
+        document.getElementById('success-message').textContent = '';
+
+        const email    = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+            document.getElementById('error-message').textContent = 'Пожалуйста, заполните все поля.';
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                document.getElementById('success-message').textContent = 'Вход выполнен! Перенаправление...';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1200);
+            } else {
+                document.getElementById('error-message').textContent = data.error || 'Ошибка входа';
+            }
+        } catch (err) {
+            document.getElementById('error-message').textContent = 'Ошибка соединения с сервером';
+        }
+    });
+    </script>
 </body>
 </html>
