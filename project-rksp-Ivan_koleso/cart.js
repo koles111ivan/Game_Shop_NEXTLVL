@@ -198,7 +198,7 @@ function getCorrectProductName(productId, productName) {
             }
             return productName.replace(/\?\?\?\?/g, 'Logitech');
     }
-}
+}//rrer
 
 // Функция добавления товара в корзину
 function addToCart(product) {
