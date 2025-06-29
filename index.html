@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Премиум игровые мыши</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="main-link">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link" data-count="0">Корзина</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Баннер с мышью -->
+    <section class="hero-banner">
+        <div class="banner-image">
+            <img src="images/Frame 70.png" alt="Игровая мышь G502 X LIGHTSPEED">
+        </div>
+        <div class="banner-content">
+            <h1 class="banner-title">G502 X LIGHTSPEED</h1>
+            <p>Профессиональная беспроводная игровая мышь</p>
+            <div class="banner-price">15 185 ₽</div>
+            <div class="banner-buttons">
+                <button class="btn btn-primary" onclick="addToCart({
+                    id: 9,
+                    name: 'G502 X LIGHTSPEED',
+                    price: 15185,
+                    image: 'images/mouse.png',
+                    quantity: 1
+                })">Купить</button>
+                <a href="product.html?id=9&name=G502X&price=15185&image=images/Frame 70.png" class="btn btn-secondary">Подробнее</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Каталог -->
+    <section class="catalog-section">
+        <h2 class="section-title">Другие продукты</h2>
+        <p class="section-subtitle">Выберите свое идеальное игровое устройство</p>
+
+        <div class="products-grid">
+            <!-- Товар 1 -->
+            <div class="product-card">
+                <a href="product.html?id=1&name=G502X&price=15185&image=images/mouse.png" class="product-link">
+                    <img src="images/mouse.png" alt="Мышь G502 X" class="product-image">
+                    <h3 class="product-name">Мышь G502 X</h3>
+                    <p class="product-desc">Профессиональная игровая мышь с ультраточным сенсором</p>
+                    <div class="product-price">15 185 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart({
+                    id: 1,
+                    name: 'Мышь G502 X',
+                    price: 15185,
+                    image: 'images/mouse.png',
+                    quantity: 1
+                })">Купить сейчас</button>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="product-card">
+                <a href="product.html?id=2&name=XboxElite&price=17850&image=images/gamepad.png" class="product-link">
+                    <img src="images/gamepad.png" alt="Геймпад Xbox Elite" class="product-image">
+                    <h3 class="product-name">Геймпад Xbox Elite</h3>
+                    <p class="product-desc">Профессиональный беспроводной контроллер</p>
+                    <div class="product-price">17 850 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart({
+                    id: 2,
+                    name: 'Геймпад Xbox Elite',
+                    price: 17850,
+                    image: 'images/gamepad.png',
+                    quantity: 1
+                })">Купить сейчас</button>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="product-card">
+                <a href="product.html?id=3&name=G502X&price=17985&image=images/mouse.png" class="product-link">
+                    <img src="images/mouse.png" alt="Мышь G502 X" class="product-image">
+                    <h3 class="product-name">Мышь G502 X</h3>
+                    <p class="product-desc">Профессиональная игровая мышь с ультраточным сенсором</p>
+                    <div class="product-price">17 985 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart({
+                    id: 3,
+                    name: 'Мышь G502 X',
+                    price: 17985,
+                    image: 'images/mouse.png',
+                    quantity: 1
+                })">Купить сейчас</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>© 2025 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+
+    <script>
+        // Функции для работы с корзиной
+        function getCart() {
+            const cart = localStorage.getItem('cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function addToCart(product) {
+            const cart = getCart();
+            const existingProduct = cart.find(item => item.id === product.id);
+
+            if (existingProduct) {
+                existingProduct.quantity += product.quantity;
+            } else {
+                cart.push(product);
+            }
+
+            saveCart(cart);
+            updateCartCounter();
+            showAddToCartNotification();
+        }
+
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            const cartLink = document.querySelector('.cart-link');
+            cartLink.setAttribute('data-count', totalItems);
+        }
+
+        function showAddToCartNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.textContent = 'Товар добавлен в корзину';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        // Инициализация при загрузке страницы
+        window.addEventListener('load', () => {
+            updateCartCounter();
+        });
+    </script>
+
+    <style>
+        .cart-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-link::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: attr(data-count) '' none;
+        }
+
+        .product-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .buy-btn {
+            margin-top: auto;
+        }
+    </style>
+</body>
+</html>

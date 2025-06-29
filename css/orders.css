@@ -1,0 +1,260 @@
+/* Стили для шапки */
+.site-header {
+    background-color: #1a1a1a;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logo-part-next {
+    color: #fff;
+}
+
+.logo-part-lvl {
+    color: #8A2BE2; /* Фиолетовый цвет */
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #8A2BE2; /* Фиолетовый цвет при наведении */
+}
+
+.main-link {
+    color: #fff !important; /* Белый цвет для ссылки "Главная" */
+}
+
+.main-link:hover {
+    color: #8A2BE2 !important; /* Фиолетовый цвет при наведении */
+}
+
+.cart-link {
+    position: relative;
+}
+
+.cart-link::after {
+    content: attr(data-count);
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #8A2BE2; /* Фиолетовый цвет */
+    color: white;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    display: none;
+}
+
+.cart-link[data-count]:not([data-count="0"])::after {
+    display: block;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.auth-buttons a {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.login-btn:hover {
+    background-color: #fff;
+    color: #1a1a1a;
+}
+
+.register-btn {
+    background-color: #8A2BE2; /* Фиолетовый цвет */
+    color: #fff;
+}
+
+.register-btn:hover {
+    background-color: #7B1FA2; /* Темно-фиолетовый при наведении */
+}
+
+/* Стили для контейнера заказов */
+.orders-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    min-height: calc(100vh - 200px);
+}
+
+.orders-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+    font-size: 2rem;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.order-number {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.order-date {
+    color: #666;
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.order-item:hover {
+    background: #f0f0f0;
+}
+
+.order-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+.item-name {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.item-price {
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.item-quantity {
+    color: #666;
+}
+
+.order-total {
+    margin-top: 1.5rem;
+    text-align: right;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.no-orders {
+    text-align: center;
+    color: #666;
+    padding: 3rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+/* Стили для уведомлений */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.notification.success {
+    background-color: #4CAF50;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.notification.info {
+    background-color: #2196F3;
+} 

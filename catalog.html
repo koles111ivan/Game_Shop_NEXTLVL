@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Каталог</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html" class="main-link">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link">Корзина <span class="cart-count" style="background-color: #9c4dff; padding: 2px 6px; border-radius: 50%; font-size: 12px;">0</span></a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="catalog-main-section">
+        <h1 class="catalog-title">Каталог товаров</h1>
+        
+        <!-- Поиск -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск товаров...">
+            <button class="search-btn">Поиск</button>
+        </div>
+
+        <!-- Сетка товаров -->
+        <div class="products-grid">
+            <!-- Товар 1 -->
+            <div class="product-card">
+                <a href="product.html?id=mouse1" class="product-link">
+                    <img src="images/mouse.png" alt="Мышь G502 X" class="product-image">
+                    <h3 class="product-name">Мышь G502 X</h3>
+                    <p class="product-desc">Профессиональная игровая мышь с ультраточным сенсором</p>
+                    <div class="product-price">15 185 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('mouse1', 'Мышь G502 X', 15185, 'images/mouse.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="product-card">
+                <a href="product.html?id=gamepad1" class="product-link">
+                    <img src="images/gamepad.png" alt="Xbox Elite Controller" class="product-image">
+                    <h3 class="product-name">Xbox Elite Controller</h3>
+                    <p class="product-desc">Премиальный геймпад для Xbox Series X|S и PC</p>
+                    <div class="product-price">17 850 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('gamepad1', 'Xbox Elite Controller', 17850, 'images/gamepad.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="product-card">
+                <a href="product.html?id=keyboard1" class="product-link">
+                    <img src="images/keyboard.png" alt="Razer BlackWidow V3" class="product-image">
+                    <h3 class="product-name">Razer BlackWidow V3</h3>
+                    <p class="product-desc">Механическая клавиатура с RGB подсветкой</p>
+                    <div class="product-price">12 990 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('keyboard1', 'Razer BlackWidow V3', 12990, 'images/keyboard.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 4 -->
+            <div class="product-card">
+                <a href="product.html?id=headset1" class="product-link">
+                    <img src="images/headset.png" alt="SteelSeries Arctis Pro" class="product-image">
+                    <h3 class="product-name">SteelSeries Arctis Pro</h3>
+                    <p class="product-desc">Премиальная игровая гарнитура с Hi-Res звуком</p>
+                    <div class="product-price">19 990 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('headset1', 'SteelSeries Arctis Pro', 19990, 'images/headset.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 5 -->
+            <div class="product-card">
+                <a href="product.html?id=mouse2" class="product-link">
+                    <img src="images/mouse.png" alt="Razer Viper Ultimate" class="product-image">
+                    <h3 class="product-name">Razer Viper Ultimate</h3>
+                    <p class="product-desc">Беспроводная игровая мышь с док-станцией</p>
+                    <div class="product-price">14 590 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('mouse2', 'Razer Viper Ultimate', 14590, 'images/mouse.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 6 -->
+            <div class="product-card">
+                <a href="product.html?id=keyboard2" class="product-link">
+                    <img src="images/keyboard.png" alt="HyperX Alloy Origins" class="product-image">
+                    <h3 class="product-name">HyperX Alloy Origins</h3>
+                    <p class="product-desc">Компактная механическая клавиатура</p>
+                    <div class="product-price">11 990 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('keyboard2', 'HyperX Alloy Origins', 11990, 'images/keyboard.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 7 -->
+            <div class="product-card">
+                <a href="product.html?id=headset2" class="product-link">
+                    <img src="images/headset.png" alt="Logitech G Pro X" class="product-image">
+                    <h3 class="product-name">Logitech G Pro X</h3>
+                    <p class="product-desc">Профессиональная игровая гарнитура</p>
+                    <div class="product-price">13 990 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('headset2', 'Logitech G Pro X', 13990, 'images/headset.png')">Добавить в корзину</button>
+            </div>
+
+            <!-- Товар 8 -->
+            <div class="product-card">
+                <a href="product.html?id=keyboard3" class="product-link">
+                    <img src="images/keyboard.png" alt="Corsair K100 RGB" class="product-image">
+                    <h3 class="product-name">Corsair K100 RGB</h3>
+                    <p class="product-desc">Премиальная механическая клавиатура</p>
+                    <div class="product-price">21 990 ₽</div>
+                </a>
+                <button class="buy-btn" onclick="addToCart('keyboard3', 'Corsair K100 RGB', 21990, 'images/keyboard.png')">Добавить в корзину</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript для работы с корзиной -->
+    <script>
+        function showNotification(message, isError = false) {
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = 'notification' + (isError ? ' error' : '');
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Показываем уведомление
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Скрываем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.classList.add('hide');
+                // Удаляем элемент после завершения анимации
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function addToCart(id, name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Проверяем, есть ли уже такой товар в корзине
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Показываем уведомление
+            showNotification('Товар добавлен в корзину!');
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+        }
+
+        function searchProducts() {
+            const searchInput = document.querySelector('.search-input');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const productCards = document.querySelectorAll('.product-card');
+            let found = false;
+
+            productCards.forEach(card => {
+                const productName = card.querySelector('.product-name').textContent.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    found = true;
+                    // Прокручиваем к найденному товару
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (!found && searchTerm !== '') {
+                showNotification('Товар не найден', true);
+            } else if (searchTerm === '') {
+                // Если поиск пустой, показываем все товары
+                productCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+        }
+
+        // Обновляем счетчик корзины при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+
+            // Добавляем обработчики для поиска
+            const searchBtn = document.querySelector('.search-btn');
+            const searchInput = document.querySelector('.search-input');
+
+            searchBtn.addEventListener('click', searchProducts);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchProducts();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

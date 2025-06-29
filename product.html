@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Товар</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link">Корзина <span class="cart-count" style="background-color: #9c4dff; padding: 2px 6px; border-radius: 50%; font-size: 12px;">0</span></a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="product-section">
+        <div class="product-image-container">
+            <img src="" alt="" class="product-image" id="productImage">
+        </div>
+        <div class="product-details">
+            <h1 class="product-name" id="productName"></h1>
+            <p class="product-description" id="productDescription"></p>
+            <div class="product-specs">
+                <h2>Характеристики</h2>
+                <ul id="productSpecs"></ul>
+            </div>
+            <div class="product-price" id="productPrice"></div>
+            <button class="add-to-cart-btn" id="addToCartBtn">Добавить в корзину</button>
+        </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+
+    <!-- Подключаем скрипты -->
+    <script src="project-rksp-Ivan_koleso\products.js"></script>
+    <script>
+         // Функция для показа уведомления
+        function showNotification(message) {
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Показываем уведомление
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Скрываем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.classList.add('hide');
+                // Удаляем элемент после завершения анимации
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Функция для добавления в корзину
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Проверяем, есть ли уже такой товар в корзине
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showNotification('Товар добавлен в корзину');
+        }
+        // Функция для получения параметров из URL
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // Функция для загрузки данных товара
+        function loadProduct() {
+            const productId = getUrlParams();
+            console.log('Product ID:', productId); // Отладочная информация
+            console.log('Available products:', products); // Отладочная информация
+
+            const product = products[productId];
+            console.log('Selected product:', product); // Отладочная информация
+
+            if (!product) {
+                console.error('Product not found:', productId); // Отладочная информация
+                window.location.href = 'catalog.html';
+                return;
+            }
+
+            // Обновляем заголовок страницы
+            document.title = `NEXTLVL | ${product.name}`;
+
+            // Заполняем данные товара
+            const productImage = document.getElementById('productImage');
+            const productName = document.getElementById('productName');
+            const productDescription = document.getElementById('productDescription');
+            const productPrice = document.getElementById('productPrice');
+            const productSpecs = document.getElementById('productSpecs');
+            
+            
+
+            if (productImage) productImage.src = product.image;
+            if (productImage) productImage.alt = product.name;
+            if (productName) productName.textContent = product.name;
+            if (productDescription) productDescription.textContent = product.description;
+            if (productPrice) productPrice.textContent = `${product.price.toLocaleString()} ₽`;
+
+            // Заполняем характеристики
+            if (productSpecs) {
+                productSpecs.innerHTML = '';
+                product.specs.forEach(spec => {
+                    const li = document.createElement('li');
+                    li.textContent = spec;
+                    productSpecs.appendChild(li);
+                });
+            }
+
+            // Настраиваем кнопку добавления в корзину
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            if (addToCartBtn) {
+                addToCartBtn.onclick = () => {
+                    addToCart(product.name, product.price, product.image);
+                };
+            }
+        }
+
+        // Функция для добавления в корзину
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            showNotification('Товар добавлен в корзину');
+        }
+
+        // Функция для обновления счетчика корзины
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) cartCount.textContent = totalItems;
+        }
+
+        // Загружаем товар при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded'); // Отладочная информация
+            loadProduct();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXTLVL | Вход</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-part-next">NEXT</span><span class="logo-part-lvl">LVL</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="catalog.html">Каталог</a>
+                <a href="about.html">О нас</a>
+                <a href="contacts.html">Контакты</a>
+                <a href="cart.html" class="cart-link">Корзина</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Вход</a>
+                <a href="register.html" class="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы "Вход" -->
+    <section class="login-section">
+        <div class="login-image-container">
+            <img src="images/99359de6131011f0ad1e66287b740599.webp" alt="Вход в NEXTLVL" class="login-image">
+        </div>
+        <div class="login-form-container">
+            <h2>Вход</h2>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="email">Эл. почта:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="error-message" id="error-message" style="color:#d32f2f; margin-bottom:10px; text-align:center;"></div>
+                <div class="success-message" id="success-message" style="color:#388e3c; margin-bottom:10px; text-align:center;"></div>
+                <button type="submit" class="login-submit-btn">Войти</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>© 2025 NEXTLVL. Все права защищены.</p>
+            <p>Премиальные игровые устройства для настоящих геймеров</p>
+        </div>
+    </footer>
+    <script>
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        document.getElementById('error-message').textContent = '';
+        document.getElementById('success-message').textContent = '';
+
+        const email    = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+            document.getElementById('error-message').textContent = 'Пожалуйста, заполните все поля.';
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                document.getElementById('success-message').textContent = 'Вход выполнен! Перенаправление...';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1200);
+            } else {
+                document.getElementById('error-message').textContent = data.error || 'Ошибка входа';
+            }
+        } catch (err) {
+            document.getElementById('error-message').textContent = 'Ошибка соединения с сервером';
+        }
+    });
+    </script>
+</body>
+</html>
